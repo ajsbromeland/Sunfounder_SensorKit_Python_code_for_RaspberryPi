@@ -25,11 +25,11 @@ GPIO.output(LED, GPIO.LOW)
 #This function will be called if a change is detected
 def change_detected(channel):
     if GPIO.input(HALL) == GPIO.LOW:
-        print 'Magnetic material detected: LED on'
+        print('Magnetic material detected: LED on')
         GPIO.output(LED, GPIO.HIGH) #LED on
     else:
-        print 'No magnetic material: LED off'
-	GPIO.output(LED, GPIO.LOW) # LED off
+        print('No magnetic material: LED off')
+    GPIO.output(LED, GPIO.LOW) # LED off
 
 # Register event-listener on falling and raising
 # edge on HALL-sensor input. Call "change_detected" as
@@ -43,7 +43,7 @@ try:
 
 # Quit on Ctrl-c
 except KeyboardInterrupt:
-    print "Ctrl-C - quit"
+    print("Ctrl-C - quit")
 
 # Cleanup GPIO
 finally:
