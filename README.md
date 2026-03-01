@@ -1,76 +1,86 @@
 ## SunFounder SensorKit Python code for Raspberry Pi
 
-This repository has been refreshed for **Python 3 on modern Raspberry Pi boards (including Raspberry Pi 400)**.
+This README is intentionally simplified for **Raspberry Pi 4** wiring.
 
-### What was fixed
-- Converted examples to Python 3 syntax (`print(...)`, etc.).
-- Removed mixed tabs/spaces that caused `TabError` and `IndentationError` on newer Python versions.
-- Repaired broken indentation and other syntax issues in several scripts (`01_hall_3.py`, `04_shockSwitch.py`, `05_knock.py`, `11_buzzer_passive.py`, and `ADC0832.py`).
-- Kept all scripts on **BOARD pin numbering** (`GPIO.setmode(GPIO.BOARD)`).
+## What to use on the Pi 4 header
 
-### Raspberry Pi setup notes
-- Enable GPIO access and run scripts with permissions that can access `/dev/gpiomem`.
-- For DS18B20 examples (`17_ds18b20.py`, `29_expand01.py`, `30_expand02.py`), enable 1-Wire first.
-- Several analog examples use `ADC0832.py`; wire the ADC once and reuse it:
-  - `CS -> BOARD pin 11`
-  - `CLK -> BOARD pin 12`
-  - `DIO -> BOARD pin 13`
-  - `VCC -> 3.3V`, `GND -> GND`
+All scripts use:
 
-## GPIO pin guide for each exercise
+```python
+GPIO.setmode(GPIO.BOARD)
+```
 
-The examples use `GPIO.setmode(GPIO.BOARD)`, so the pin numbers in code are **physical header pins**.  
-To make wiring easier, this table includes both the BOARD pin and the matching BCM GPIO number.
+So use **physical pin numbers** on the 40-pin header.
 
-### Common BOARD → BCM map used in this kit
+### GPIO pins used by this repo
 
-- BOARD 3  → BCM 2
-- BOARD 11 → BCM 17
-- BOARD 12 → BCM 18
-- BOARD 13 → BCM 27
-- BOARD 15 → BCM 22
-- BOARD 16 → BCM 23
-- BOARD 18 → BCM 24
-- BOARD 22 → BCM 25
+- `3`
+- `11`
+- `12`
+- `13`
+- `15`
+- `16`
+- `18`
+- `22`
 
-### Exercise wiring quick reference
+### Power pins (3.3V)
 
-| Example | GPIO pin guide |
+- `1`
+- `17`
+
+### Power pins (5V / "5v5")
+
+- `2`
+- `4`
+
+### Ground pins
+
+- `6`
+- `9`
+- `14`
+- `20`
+- `25`
+- `30`
+- `34`
+- `39`
+
+## Per-example pin quick reference (BOARD pin numbers only)
+
+| Example | Pins used |
 |---|---|
-| `01_hall_1.py` | Hall DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `01_hall_2.py` | Hall AO via ADC0832: CS BOARD 11 (BCM 17), CLK BOARD 12 (BCM 18), DIO BOARD 13 (BCM 27) |
-| `01_hall_3.py` | Hall DO: BOARD 16 (BCM 23) + ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
-| `02_rgb.py` | RGB LED: R BOARD 11 (BCM 17), G BOARD 12 (BCM 18), B BOARD 13 (BCM 27) |
-| `03_doubleColorLed.py` | 2-color LED: R BOARD 11 (BCM 17), G BOARD 12 (BCM 18) |
-| `04_shockSwitch.py` | Shock sensor DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `05_knock.py` | Knock sensor DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `06_Ir.py` | IR transmitter module signal: BOARD 11 (BCM 17) |
-| `07_laser.py` | Laser module control: BOARD 11 (BCM 17) |
-| `08_reedSwitch.py` | Reed DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `09_IR_receive.py` | IR receiver DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `10_analogTemp.py` | Temp AO via ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
-| `11_buzzer.py` | Active buzzer signal: BOARD 11 (BCM 17) |
-| `11_buzzer_passive.py` | Passive buzzer signal: BOARD 11 (BCM 17) |
-| `12_button.py` | Button: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `13_photo_interrput.py` | Photo interrupter DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `14_tiltSwitch.py` | Tilt switch DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `15_mercurySwitch.py` | Mercury switch DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `16_magicCup.py` | Mercury DO: BOARD 11 (BCM 17), LED1: BOARD 12 (BCM 18), LED2: BOARD 15 (BCM 22) |
-| `16_raindetection.py` | Rain AO via ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
-| `17_ds18b20.py` | 1-Wire sensor read from Linux device path; no direct pin setup in script |
-| `18_rotaryEncoder.py` | Encoder CLK: BOARD 11 (BCM 17), DT: BOARD 12 (BCM 18), SW: BOARD 13 (BCM 27) |
-| `19_autoFlashLed.py` | LED: BOARD 11 (BCM 17) |
-| `20_photoRes.py` | Photoresistor AO via ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
-| `21_Humiture.py` | DHT data: BOARD 11 (BCM 17) |
-| `22_obstacleAvoidance.py` | Obstacle sensor DO: BOARD 11 (BCM 17) |
-| `23_Tracking.py` | Tracking sensor DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `24_microphone.py` | Microphone DO: BOARD 15 (BCM 22) + analog AO via ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
-| `25_metalTouch.py` | Touch sensor DO: BOARD 11 (BCM 17), LED: BOARD 12 (BCM 18) |
-| `26_flame.py` | Flame sensor DO: BOARD 11 (BCM 17) |
-| `27_relay.py` | Relay IN: BOARD 11 (BCM 17) |
-| `29_expand01.py` | RGB LED: BOARD 11/12/13 (BCM 17/18/27), buzzer: BOARD 15 (BCM 22), DS18B20 via 1-Wire |
-| `30_expand02.py` | RGB LED: BOARD 15/16/18 (BCM 22/23/24), joystick SW: BOARD 22 (BCM 25), buzzer: BOARD 3 (BCM 2), ADC0832 on BOARD 11/12/13 (BCM 17/18/27), DS18B20 via 1-Wire |
-| `joystickPS2.py` | Joystick SW: BOARD 15 (BCM 22) + ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
-| `mq-2.py` | Buzzer: BOARD 16 (BCM 23) + MQ-2 AO via ADC0832 on BOARD 11/12/13 (BCM 17/18/27) |
+| `01_hall_1.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `01_hall_2.py` | GPIO: `11`, `12`, `13`; power: `3.3V`, `GND` |
+| `01_hall_3.py` | GPIO: `11`, `12`, `13`, `16`; power: `3.3V`, `GND` |
+| `02_rgb.py` | GPIO: `11`, `12`, `13`; power: `3.3V`, `GND` |
+| `03_doubleColorLed.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `04_shockSwitch.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `05_knock.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `06_Ir.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `07_laser.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `08_reedSwitch.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `09_IR_receive.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `10_analogTemp.py` | GPIO: `11`, `12`, `13`; power: `3.3V`, `GND` |
+| `11_buzzer.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `11_buzzer_passive.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `12_button.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `13_photo_interrput.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `14_tiltSwitch.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `15_mercurySwitch.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `16_magicCup.py` | GPIO: `11`, `12`, `15`; power: `3.3V`, `GND` |
+| `16_raindetection.py` | GPIO: `11`, `12`, `13`; power: `3.3V`, `GND` |
+| `17_ds18b20.py` | DS18B20 through Linux 1-Wire interface; use `3.3V` + `GND` |
+| `18_rotaryEncoder.py` | GPIO: `11`, `12`, `13`; power: `3.3V`, `GND` |
+| `19_autoFlashLed.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `20_photoRes.py` | GPIO: `11`, `12`, `13`; power: `3.3V`, `GND` |
+| `21_Humiture.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `22_obstacleAvoidance.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `23_Tracking.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `24_microphone.py` | GPIO: `11`, `12`, `13`, `15`; power: `3.3V`, `GND` |
+| `25_metalTouch.py` | GPIO: `11`, `12`; power: `3.3V`, `GND` |
+| `26_flame.py` | GPIO: `11`; power: `3.3V`, `GND` |
+| `27_relay.py` | GPIO: `11`; power: `5V` (typical relay module), `GND` |
+| `29_expand01.py` | GPIO: `11`, `12`, `13`, `15`; power: `3.3V`, `GND` |
+| `30_expand02.py` | GPIO: `3`, `11`, `12`, `13`, `15`, `16`, `18`, `22`; power: `3.3V`, `GND` |
+| `joystickPS2.py` | GPIO: `11`, `12`, `13`, `15`; power: `3.3V`, `GND` |
+| `mq-2.py` | GPIO: `11`, `12`, `13`, `16`; power: `3.3V`, `GND` |
 
-> Note: If your module labels pins as `GPIO17`, `GPIO18`, etc., use the BCM value in parentheses.
